@@ -6,7 +6,7 @@
 /*   By: ssutarmi <ssutarmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/24 16:19:53 by ssutarmi          #+#    #+#             */
-/*   Updated: 2026/07/24 16:33:01 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2026/07/26 15:08:39 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,6 @@
 #include <unistd.h>
 #include <stdio.h>
 
-
+//int		**n_queens_init(int n);
 
 #endif
