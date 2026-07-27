@@ -6,28 +6,28 @@
 /*   By: ssutarmi <ssutarmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/24 16:19:55 by ssutarmi          #+#    #+#             */
-/*   Updated: 2026/07/26 21:49:13 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2026/07/27 20:59:58 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "n_queens.h"
 
-void	print_solution(int *position, int n)
+void	print_solution(int *pos, int n)
 {
 	int	i;
 
 	i = 0;
 	while (i < n)
 	{
-		fprintf(STDOUT_FILENO, "%d", position[i]);
+		fprintf(stdout, "%d", pos[i]);
 		i++;
 		if (i < n)
-			fprintf(STDOUT_FILENO, " ");
+			fprintf(stdout, " ");
 	}
-	fprintf(STDOUT_FILENO, "\n");
+	fprintf(stdout, "\n");
 }
 
-int	is_valid(int column_pos, int row_pos, int n , int *positions)
+int	is_valid(int col_pos, int row_pos, int *pos)
 {
 	int	row_i;
 
@@ -36,58 +36,61 @@ int	is_valid(int column_pos, int row_pos, int n , int *positions)
 	row_i = row_pos;
 	while (--row_i >= 0)
 	{
-		if (positions[row_i] == column_pos)
+		if (pos[row_i] == col_pos)
 			return (1);
-		if (positions[row_i] == column_pos - (row_pos - row_i))
+		if (pos[row_i] == col_pos - (row_pos - row_i))
 			return (1);
-		if (positions[row_i] == column_pos + (row_pos - row_i))
+		if (pos[row_i] == col_pos + (row_pos - row_i))
 			return (1);
 	}
 	return (0);
 }
 
-int	n_queens(int column, int row, int n, int *positions)
+void	n_queens(int col, int row, int n, int *pos)
 {
-	int	c_track;
+	int	col_i;
 
 	while (row < n)
 	{
-		c_track = column;
-		while (c_track < n)
+		col_i = col;
+		while (row < n && col_i < n)
 		{
-			if (is_valid(c_track, row, n, positions) == 0)
+			if (is_valid(col_i, row, pos) == 0)
 			{
-				positions[row] = c_track;
+				pos[row] = col_i;
 				row++;
-				column = 0;
+				col_i = 0;
 				continue ;
 			}
-			c_track++;
+			col_i++;
 		}
-		if (c_track == n && is_valid(c_track, row, n, positions) == 1)
-			n_queens((positions[row - 1] + 1), (row - 1), n, positions);
-		row++;
+		if (row == 0)
+			return ;
+		else if (row < n && col_i == n)
+			n_queens(pos[row - 1] + 1, row - 1, n, pos);
+		else if (row < n)
+			row++;
+		if (row == n)
+			print_solution(pos, n);
 	}
-	if (row == n && is_valid(c_track, row, n, positions) == 1)
-		print_solution(positions, n);
-	return (1);
 }
 
 int main(int argc, char **argv)
 {
 	int	i;
 	int	n;
-	int	*positions;
+	int	*pos;
 
 	if (argc != 2)
 		return (1);
 	i = 0;
 	n = atoi(argv[1]);
-	positions = malloc(n * sizeof(int));
-	if (!positions)
-		return (NULL);
+	pos = malloc(n * sizeof(int));
+	if (!pos)
+		return (1);
 	while (i < n)
-		positions[i++] = -1;
-	n_queens(0, 0, n, positions);
+		pos[i++] = -1;
+	n_queens(0, 0, n, pos);
+	free(pos);
 	return (0);
 }
