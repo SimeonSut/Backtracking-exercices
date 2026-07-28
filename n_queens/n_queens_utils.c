@@ -6,13 +6,16 @@
 /*   By: ssutarmi <ssutarmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/26 12:50:52 by ssutarmi          #+#    #+#             */
-/*   Updated: 2026/07/26 15:08:34 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2026/07/28 21:44:27 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "n_queens.h"
 
 /*int		**n_queens_init(int n)
+
+ clear ; cc -Wall -Wextra -Werror n_queens.c n_queens_utils.c -g -o n_queens
+
 {
 	int	i;
 	int	sub_i;
