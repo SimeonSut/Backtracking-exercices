@@ -6,7 +6,7 @@
 /*   By: ssutarmi <ssutarmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/24 16:19:55 by ssutarmi          #+#    #+#             */
-/*   Updated: 2026/07/28 21:44:13 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2026/07/29 15:08:36 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,11 +67,18 @@ void	n_queens(int col, int row, int n, int *pos)
 		if (row == 0)
 			return ;
 		else if (row < n && col_i == n)
+		{
 			n_queens(pos[row - 1] + 1, row - 1, n, pos);
+			break ;
+		}
 		else if (row < n)
 			row++;
 		if (row == n)
+		{
 			print_solution(pos, n);
+			row--;
+			col = pos[row] + 1;
+		}
 	}
 }
 
