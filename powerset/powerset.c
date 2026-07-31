@@ -6,7 +6,7 @@
 /*   By: ssutarmi <ssutarmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/30 16:18:14 by ssutarmi          #+#    #+#             */
-/*   Updated: 2026/07/30 21:37:59 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2026/07/31 21:11:36 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,43 @@ t_list	*iter_n_check_diff(t_set *node, int *subset, int sublen)
 	return (track);
 }
 
+void	store_solution(t_set *node, int *subset, int sublen)
+{
+	t_list	*storage;
+
+	storage = iter_n_check_diff(node, subset, sublen);
+	if (!storage)
+		return ;
+	storage->next = new_solution(subset, sublen);
+}
+
 void	powerset(t_set *node, int *subset, int sublen, int start)
 {
 	int	i;
 
 	i = start;
+	while (i < node->len)
+	{
+		if (start == i && node->set[i] == node->n)
+			store_solution(node, node->set[i], 1);//store solution
+		if (start < i && node->set[start] + node->set[i] < node->n)
+		{
+			subset_increment(subset, &sublen, node->set[i]);//add number to subset
+			powerset(node, subset, sublen, i);//rerun with subset
+		}
+		else if (node->set[start] + node->set[i] == node->n)
+		{
+			;//store solution subset + node->set[i]
+		}
+		else if (node->set[start] + node->set[i] > node->n)
+		{
+			;//free subset
+			;//return or backtrack? Its a dead end
+		}
+		i++;
+	}
+	if (start < node->len)
+		;//backtrack, incrementing start
 }
 
 int main(int argc, char **argv)

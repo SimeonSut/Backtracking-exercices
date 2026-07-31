@@ -6,7 +6,7 @@
 /*   By: ssutarmi <ssutarmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/30 16:18:12 by ssutarmi          #+#    #+#             */
-/*   Updated: 2026/07/30 21:20:08 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2026/07/31 21:12:11 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,26 @@ int	doubleptr_len(char **dptr)
 	while (dptr[i])
 		i++;
 	return (i);
+}
+
+int		subset_increment(int *subset, int *sublen, int new_nb)
+{
+	subset = realloc(subset, sublen + sizeof(int));
+	if (!subset)
+		return (1);
+	subset[*sublen] = new_nb;
+	*sublen++;
+	return (0);
+}
+
+int		subset_sum(int *subset, int sublen)
+{
+	int	sum;
+
+	sum = 0;
+	while (--sublen >= 0)
+		sum += subset[sublen];
+	return (sum);
 }
 
 t_set	*make_set(char **argv)

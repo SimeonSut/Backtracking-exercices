@@ -6,7 +6,7 @@
 /*   By: ssutarmi <ssutarmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/30 16:18:10 by ssutarmi          #+#    #+#             */
-/*   Updated: 2026/07/30 21:20:05 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2026/07/31 21:12:28 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ typedef struct s_list
 
 //POWERSET_UTILS.C
 int		doubleptr_len(char **dptr);
+int		subset_increment(int *subset, int *sublen, int new_nb);
+int		subset_sum(int *subset, int sublen);
 t_set	*make_set(char **argv);
 t_list	*new_solution(int *solution, int len);
 
