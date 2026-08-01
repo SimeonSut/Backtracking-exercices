@@ -27,7 +27,7 @@ void	powerset(int n, int *set, int set_len, int *subset, int subset_len)
 	int	i;
 
 	i = set_len - (set_len - subset_len);
-	while (i < set_len)
+	while (i < set_len && subset[subset_len] != set[set_len - 1])
 	{
 		if (set[i] == n)
 			print_solution(&set[i], 1);
