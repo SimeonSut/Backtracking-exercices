@@ -6,13 +6,13 @@
 /*   By: ssutarmi <ssutarmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/30 16:18:12 by ssutarmi          #+#    #+#             */
-/*   Updated: 2026/07/31 21:12:11 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2026/08/02 00:02:33 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "powerset.h"
 
-int	doubleptr_len(char **dptr)
+int		doubleptr_len(char **dptr)
 {
 	int	i;
 
@@ -22,63 +22,34 @@ int	doubleptr_len(char **dptr)
 	return (i);
 }
 
-int		subset_increment(int *subset, int *sublen, int new_nb)
+void	add_nb_to_subset(int *subset, int *subset_len, int nb_i, int new_nb)
 {
-	subset = realloc(subset, sublen + sizeof(int));
-	if (!subset)
-		return (1);
-	subset[*sublen] = new_nb;
-	*sublen++;
-	return (0);
+	subset[nb_i] = new_nb;
+	*subset_len++;
 }
 
-int		subset_sum(int *subset, int sublen)
+int		set_sum(int *set, int len)
 {
 	int	sum;
 
 	sum = 0;
-	while (--sublen >= 0)
-		sum += subset[sublen];
+	while (--len >= 0)
+		sum += set[len];
 	return (sum);
 }
 
-t_set	*make_set(char **argv)
+int		make_set(char **argv, int *set, int cpy_len, int set_len)
 {
-	int		i;
-	t_set	*node;
-
-	node = malloc(sizeof(t_set));
-	if (!node)
-		return (NULL);
-	node->len = doubleptr_len(argv);
-	i = node->len;
-	node->set = malloc(node->len * sizeof(int));
-	if (!node->set)
+	int	i;
+	
+	i = 0;
+	set = malloc(set_len * sizeof(int));
+	if (!set)
+		return (1);
+	while (i < cpy_len)
 	{
-		free(node);
-		return (NULL);
+		set[i] = atoi(argv[i]);
+		i++;
 	}
-	while (--i >= 0)
-		node->set[i] = atoi(argv[i]);
-	node->lst = NULL;
-	return (node);
-}
-
-t_list	*new_solution(int *subset, int len)
-{
-	t_list	*node;
-	node = malloc(sizeof(t_list));
-	if (!node)
-		return (NULL);
-	node->solution = malloc(len * sizeof(int));
-	if (!node->solution)
-	{
-		free(node);
-		return (NULL);
-	}
-	while (--len >= 0)
-		node->solution[len] = subset[len];
-	node->len = len;
-	node->next = NULL;
-	return (node);
+	return (0);
 }
