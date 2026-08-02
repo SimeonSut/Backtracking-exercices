@@ -6,7 +6,7 @@
 /*   By: ssutarmi <ssutarmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/30 16:18:14 by ssutarmi          #+#    #+#             */
-/*   Updated: 2026/08/02 00:02:48 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2026/08/02 21:37:43 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,86 +22,58 @@ void	print_solution(int *solution_set, int solution_len)
 	printf("%d\n", *solution_set);
 }
 
-void	powerset(int n, int *set, int set_len, int *subset, int subset_len)
+int		check_condition(t_set *node, int *subset)
 {
 	int	i;
 
-	i = set_len - (set_len - subset_len);
-	while (i < set_len && subset[subset_len] != set[set_len - 1])
+	i = 0;
+	while (i < node->set_len)
 	{
-		if (set[i] == n)
-			print_solution(&set[i], 1);
-		add_nb_to_subset(subset, set_len, &subset_len, set[i]);
-		if (set_sum(subset, subset_len) == n && subset_len > 1)
-			print_solution(subset, subset_len);
+		if (subset[i] == 1)
+			return (1);
 		i++;
 	}
-	powerset(n, set, set_len, subset, --subset_len);
+	return (0);
+}
+
+void	powerset(t_set *node, int start, int *subset, int subset_sum)
+{
+	int	i;
+
+	i = start;
+	if (subset[start] == 1)
+		subset[start] == 0;
+	while (i < node->set_len)
+	{
+		if (start == 0 || (start != 0 && i != start))
+			subset[i] = 1;
+		if (subset[i] == 1)
+			subset_sum += node->set[i];
+		else
+			subset_sum -= node->set[i];
+		if (subset_sum == node)
+			;//print_solution
+		i++;
+	}
+	if (check_condition(node, subset) == 1)
+		powerset(node, --i, subset, subset_sum);
 }
 
 int main(int argc, char **argv)
 {
-	int	n;
-	int	set_len;
-	int	subset_len;
-	int	*set;
-	int	*subset;
+	t_set	*node;
+	int		*subset;
 
 	if (argc < 2)
 		return (1);
 	if (argc == 2)
-	{
-		write(1, "\n", 1);
-		return (0);
-	}
-	n = atoi(argv[1]);
-	argv += 2;
-	set_len = doubleptr_len(argv);
-	if (make_set(argv, set, set_len, set_len) == 1)
+		return (printf("\n"), 0);
+	node = make_set(argv);
+	if (!node)
 		return (1);
-	subset_len = 0;
-	if (make_set(argv, subset, subset_len, set_len) == 1)
-		return (free(set), 1);
-	powerset(n, set, set_len, subset, subset_len);
-	free(set);
-	free(subset);
+	subset = make_subset(argv, node->set_len);
+	if (!subset)
+		return (1);
+	powerset(node, 0, subset, 0);
 	return (0);
 }
-
-/*
-int		int_array_diff(int *arr_one, int len_one, int *arr_two, int len_two)
-{
-	if (len_one != len_two)
-		return (0);
-	while (--len_one >= 0)
-	{
-		if (arr_one[len_one] != arr_two[len_one])
-			return (0);
-	}
-	return (1);
-}
-
-t_list	*iter_n_check_diff(t_set *node, int *subset, int sublen)
-{
-	t_list	*track;
-
-	track = node->lst;
-	while (track && track->next)
-	{
-		if (int_array_diff(track->solution, track->len, subset, sublen) != 0)
-			return (NULL);
-		track = track->next;
-	}
-	return (track);
-}
-
-void	store_solution(t_set *node, int *subset, int sublen)
-{
-	t_list	*storage;
-
-	storage = iter_n_check_diff(node, subset, sublen);
-	if (!storage)
-		return ;
-	storage->next = new_solution(subset, sublen);
-}
-*/

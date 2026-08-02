@@ -6,7 +6,7 @@
 /*   By: ssutarmi <ssutarmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/30 16:18:12 by ssutarmi          #+#    #+#             */
-/*   Updated: 2026/08/02 00:02:33 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2026/08/02 20:32:37 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,34 +22,47 @@ int		doubleptr_len(char **dptr)
 	return (i);
 }
 
-void	add_nb_to_subset(int *subset, int *subset_len, int nb_i, int new_nb)
-{
-	subset[nb_i] = new_nb;
-	*subset_len++;
-}
-
-int		set_sum(int *set, int len)
-{
-	int	sum;
-
-	sum = 0;
-	while (--len >= 0)
-		sum += set[len];
-	return (sum);
-}
-
-int		make_set(char **argv, int *set, int cpy_len, int set_len)
+int		*make_subset(char **argv, int set_len)
 {
 	int	i;
+	int	*subset;
 	
 	i = 0;
-	set = malloc(set_len * sizeof(int));
-	if (!set)
-		return (1);
-	while (i < cpy_len)
+	subset = malloc(set_len * sizeof(int));
+	if (!subset)
+		return (NULL);
+	while (i < set_len)
 	{
-		set[i] = atoi(argv[i]);
+		subset[i] = 0;
 		i++;
 	}
-	return (0);
+	return (subset);
+}
+
+t_set	*make_set(char **argv)
+{
+	int		i;
+	t_set	*node;
+	
+	i = 0;
+	node = malloc(sizeof(t_set));
+	if (!node)
+		return (NULL);
+	node->n = atoi(argv[1]);
+	argv += 2;
+	node->set_len = doubleptr_len(argv);
+	node->set = malloc (node->set_len * sizeof(int));
+	if (!node->set)
+	{
+		free(node);
+		return (NULL);
+	}
+	node->set_sum = 0;
+	while (i < node->set_len)
+	{
+		node->set[i] = atoi(argv[i]);
+		node->set_sum += node->set[i];
+		i++;
+	}
+	return (node);
 }
