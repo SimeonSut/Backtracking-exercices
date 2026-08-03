@@ -6,43 +6,113 @@
 /*   By: ssutarmi <ssutarmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/30 16:18:14 by ssutarmi          #+#    #+#             */
-/*   Updated: 2026/08/03 16:13:40 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2026/08/03 22:08:12 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "powerset.h"
+#include <stdlib.h>
+#include <stdio.h>
 
-void	print_solution(int *solution_set, int solution_len)
+int		doubleptr_len(char **dptr)
 {
-	while (--solution_len > 0)
-	{
-		printf("%d ", *solution_set);
-		solution_set++;
-	}
-	printf("%d\n", *solution_set);
+	int	i;
+
+	i = 0;
+	while (dptr[i])
+		i++;
+	return (i);
 }
 
-void	powerset(t_set *node, int start, int *subset, int subset_sum)
+int	*make_set(char **argv, int len)
 {
-	if (subset[node->set_len - 1] == 1)
-		;//backtracking
+	int	i;
+	int *set;
+
+	i = 0;
+	set = malloc (len * sizeof(int));
+	if (!set)
+		return (NULL);
+	while (i < len)
+	{
+		if (argv)
+			set[i] = atoi(argv[i]);
+		else
+			set[i] = 1;
+		i++;
+	}
+	return (set);
+}
+
+void	try_n_print(int *set, int *subset, int len, int n)
+{
+	int	i;
+	int	check;
+	int	sum;
+
+	i = len;
+	check = 0;
+	sum = 0;
+	while (--i >= 0)
+	{
+		if (subset[i] == 1)
+			sum += set[i];
+	}
+	while (sum == n && i < len)
+	{
+		if (subset[i] == 1 && check == 0)
+		{
+			check = 1;
+			printf("%d", set[i]);
+		}
+		else if (subset[i] == 1 && check == 1)
+			printf(" %d", set[i]);
+		i++;
+	}
+	if (sum == n)
+		printf("\n");
+}
+
+void	powerset(int *set, int *subset, int len, int n)
+{
+	int	i;
+
+	i = len;
+	try_n_print(set, subset, len, n);
+	while (--i >= 0)
+	{
+		if (subset[i] == 0)
+			subset[i] = 1;
+		else
+		{
+			subset[i] = 0;
+			break ;
+		}
+	}
+	if (i < 0)
+		return ;
+	powerset(set, subset, len, n);
 }
 
 int main(int argc, char **argv)
 {
-	t_set	*node;
+	int		n;
+	int		len;
+	int		*set;
 	int		*subset;
 
 	if (argc < 2)
 		return (1);
 	if (argc == 2)
 		return (printf("\n"), 0);
-	node = make_set(argv);
-	if (!node)
+	n = atoi(argv[1]);
+	argv += 2;
+	len = doubleptr_len(argv);
+	set = make_set(argv, len);
+	if (!set)
 		return (1);
-	subset = make_subset(argv, node->set_len);
+	subset = make_set(NULL, len);
 	if (!subset)
 		return (1);
-	powerset(node, 0, subset, 0);
+	powerset(set, subset, len ,n);
 	return (0);
 }
