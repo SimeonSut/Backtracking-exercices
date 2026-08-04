@@ -6,22 +6,12 @@
 /*   By: ssutarmi <ssutarmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/30 16:18:14 by ssutarmi          #+#    #+#             */
-/*   Updated: 2026/08/03 22:08:12 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2026/08/04 17:18:57 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <stdio.h>
-
-int		doubleptr_len(char **dptr)
-{
-	int	i;
-
-	i = 0;
-	while (dptr[i])
-		i++;
-	return (i);
-}
 
 int	*make_set(char **argv, int len)
 {
@@ -57,7 +47,7 @@ void	try_n_print(int *set, int *subset, int len, int n)
 		if (subset[i] == 1)
 			sum += set[i];
 	}
-	while (sum == n && i < len)
+	while (sum == n && ++i < len)
 	{
 		if (subset[i] == 1 && check == 0)
 		{
@@ -66,7 +56,6 @@ void	try_n_print(int *set, int *subset, int len, int n)
 		}
 		else if (subset[i] == 1 && check == 1)
 			printf(" %d", set[i]);
-		i++;
 	}
 	if (sum == n)
 		printf("\n");
@@ -102,11 +91,9 @@ int main(int argc, char **argv)
 
 	if (argc < 2)
 		return (1);
-	if (argc == 2)
-		return (printf("\n"), 0);
 	n = atoi(argv[1]);
 	argv += 2;
-	len = doubleptr_len(argv);
+	len = argc - 2;
 	set = make_set(argv, len);
 	if (!set)
 		return (1);
