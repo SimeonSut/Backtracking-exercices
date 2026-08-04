@@ -6,7 +6,7 @@
 /*   By: ssutarmi <ssutarmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/29 15:33:30 by ssutarmi          #+#    #+#             */
-/*   Updated: 2026/07/29 22:13:17 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2026/08/04 20:39:05 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,79 +14,79 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-typedef struct s_list
-{
-	char			*solution;
-	struct s_list	*next;
-}	t_list;
-
-t_list	*new(char *solution, int len)
-{
-	t_list	*node;
-
-	node = malloc(sizeof(t_list));
-	if (!node)
-		return (NULL);
-	node->solution = malloc(len * sizeof(char));
-	if (node->solution)
-	{
-		free(node);
-		return (NULL);
-	}
-	while (len >= 0)
-	{
-		node->solution[len] = solution;
-		len--;
-	}
-	node->next = NULL;
-	return (node);
-}
-
-int	my_strlen(char *str)
+int		my_strlen(char *str)
 {
 	int	i;
 
 	i = 0;
-	while(str[i])
+	while (str[i])
 		i++;
 	return (i);
 }
 
-void	swap(char *one, char *two)
+char	*my_strdup(char *str)
 {
-	char	tmp;
+	int	len;
+	char *new;
 
-	tmp = *one;
-	*one = *two;
-	*two = tmp;
-}
-
-
-void	permutations(char *str, int start, int swap_i, int len)
-{
-	int	i;
-
-	i = start;
-	while (start <= len)
-	{
-		swap(str[start], str[i]);
-		i++;
-		permutations(str, i, len);
-	}
-	//swap the current index of the string with itself and increment if you can
-	//if you cant increment, backtrack to the previous if you can and swap with the next one if any
-	//if you cant backtrack, return;
-}
-
-int main(int argc, char **argv)
-{
-	char	*str;
-	int		len;
-	
-	if (argc != 2)
-		return (1);
-	str = argv[1];
 	len = my_strlen(str);
+	new = malloc((len + 1) * sizeof(char));
+	if (!new)
+		return (NULL);
+	new[len] = '\0';
+	while (--len >= 0)
+		new[len] = str[len];
+	return (new);
+}
+
+void	permutations(char *str, int start, int len)
+{
+	int		i;
+	char	tmp;
+	char	*saved;
+
+	if (start == len)
+	{
+		write(1, str, len);
+		write(1, "\n", 1);
+		free(str);
+		return ;
+	}
+	i = start;
+	while (str[i])
+	{
+		tmp = str[start];
+		str[start] = str[i];
+		str[i] = tmp;
+		saved = my_strdup(str);
+		if (!saved)
+			return ;
+		permutations(str, start + 1, len);
+		str = saved;
+		i++;
+	}
+	free(str);
+}
+
+int	main(int argc, char **argv)
+{
+	int		i;
+	int		len;
+	char	*str;
+
+	if (argc != 2)
+		return (0);
+	i = 0;
+	len = my_strlen(argv[1]);
+	str = malloc((len + 1) * sizeof(char));
+	if (!str)
+		return (1);
+	str[len] = '\0';
+	while (argv[1][i])
+	{
+		str[i] = argv[1][i];
+		i++;
+	}
 	permutations(str, 0, len);
 	return (0);
 }
