@@ -6,7 +6,7 @@
 /*   By: ssutarmi <ssutarmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/29 15:33:30 by ssutarmi          #+#    #+#             */
-/*   Updated: 2026/08/04 20:39:05 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2026/08/05 20:48:08 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,9 @@ void	permutations(char *str, int start, int len)
 	{
 		write(1, str, len);
 		write(1, "\n", 1);
-		free(str);
-		return ;
 	}
 	i = start;
-	while (str[i])
+	while (i < len)
 	{
 		tmp = str[start];
 		str[start] = str[i];
