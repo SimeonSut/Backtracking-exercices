@@ -6,14 +6,14 @@
 /*   By: ssutarmi <ssutarmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/23 14:57:14 by ssutarmi          #+#    #+#             */
-/*   Updated: 2026/08/07 21:06:28 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2026/08/09 21:15:47 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include <unistd.h>
 
-int		check_validity(char *str, int ignore)
+int		check_validity(char *str)
 {
 	int	i;
 	int	count;
@@ -32,31 +32,25 @@ int		check_validity(char *str, int ignore)
 	}
 	if (count > 0)
 		return (1);
+	puts(str);
 	return (0);
 }
 
-void	rip(char *str, int prev_space, int char_input)
+void	rip(char *str)
 {
 	int		i;
 	char	tmp;
 
 	i = 0;
+	if (check_validity(str) == 0)
+		return ;
 	while (str[i])
 	{
-		if (check_validity(str, i) == 0)
-		{
-			;//print_solution
-			return ;
-		}
+		tmp = str[i];
+		str[i] = ' ';
+		check_validity(str);
+		str[i] = tmp;
 		i++;
-		if ((!str[i] || i == prev_space) && i > 0)
-		{
-			str[i] = char_input;
-			i--;
-			tmp = str[i];
-			str[i] = ' ';
-			rip(str, i, tmp);
-		}
 	}
 }
 
