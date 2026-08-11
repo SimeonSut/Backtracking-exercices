@@ -26,3 +26,51 @@ $> ./rip '(()(()(' | cat -e
 ( )( ) $
 ( ) () $
  ()( ) $
+
+Others tests, created by AI with their solutions
+
+Input: ())(()))(
+
+7 solutions, 3 removals. This is the one worth running first: it needs you to remove both an excess close and excess opens in the same input, and the removals aren't contiguous.
+
+[(  (())) ]
+[( )(( )) ]
+[( )(() ) ]
+[( )(())  ]
+[() (( )) ]
+[() (() ) ]
+[() (())  ]
+Edge cases
+
+Input: (()()(() → 2 removals, 7 solutions
+
+[ ()() ()]
+[ ()()( )]
+[( )() ()]
+[( )()( )]
+[(() ) ()]
+[(() )( )]
+[(()()  )]
+
+Input: ((()(())) → 1 removal, 5 solutions. Shallow depth but wide branching — catches programs that stop after finding the first valid string at a given depth.
+
+[ (()(()))]
+[( ()(()))]
+[(( )(()))]
+[((() ()))]
+[((()( )))]
+
+Input: (()))(() → 2 removals, 6 solutions.
+
+[(( )) ()]
+[(( ))( )]
+[(() ) ()]
+[(() )( )]
+[(())  ()]
+[(()) ( )]
+
+This one takes long to finish, 1 solutions located deep.
+./rip '))))))))(((((((((((((((((((((((((((((((((((((((())))))))))))))))))))))))))))))))))))))))' | cat -e
+
+This one is instant, yield 51 lines, solution is at depth one
+/rip '((((((((((((((((((((((((((((((((((((((((((((((((((())))))))))))))))))))))))))))))))))))))))))))))))))' | cat -e
