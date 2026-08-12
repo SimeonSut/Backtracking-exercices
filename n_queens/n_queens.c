@@ -6,11 +6,13 @@
 /*   By: ssutarmi <ssutarmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/24 16:19:55 by ssutarmi          #+#    #+#             */
-/*   Updated: 2026/07/29 15:08:36 by ssutarmi         ###   ########.fr       */
+/*   Updated: 2026/08/12 11:45:58 by ssutarmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "n_queens.h"
+#include <stdlib.h>
+#include <unistd.h>
+#include <stdio.h>
 
 void	print_solution(int *pos, int n)
 {
